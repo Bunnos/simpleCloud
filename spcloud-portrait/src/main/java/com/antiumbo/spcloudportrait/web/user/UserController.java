@@ -1,5 +1,6 @@
 package com.antiumbo.spcloudportrait.web.user;
 
+import com.antiumbo.spcloudportrait.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,10 @@ import org.springframework.web.client.RestTemplate;
 public class UserController {
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
-    private RestTemplate restTemplate;
+    private UserService userService;
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String test() {
-        return restTemplate.getForEntity("http://USER-SERVER/test", String.class).getBody();
+        return userService.test();
     }
 }
