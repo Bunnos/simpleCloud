@@ -29,7 +29,6 @@ public class Swagger2 {
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
 				.title("Login-Server RESTful APIS")
-				.contact("antiumbo")
 				.version("1.0")
 				.build();
 	}

@@ -26,8 +26,9 @@ public class UserController {
 
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public ResponseVo test() {
-		ResponseVo test = userService.test();
-		return test;
+//		ResponseVo test = userService.test();
+//		return test;
+		return null;
 	}
 
 	@ApiOperation(value = "注册", notes = "注册用户")

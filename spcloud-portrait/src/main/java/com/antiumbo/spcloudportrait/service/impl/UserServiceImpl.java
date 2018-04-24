@@ -1,3 +1,4 @@
+/*
 package com.antiumbo.spcloudportrait.service.impl;
 
 import com.antiumbo.spcloudportrait.service.UserService;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 
+*/
 /**
  * @author antiumbo
- */
+ *//*
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -38,3 +41,4 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 }
+*/
