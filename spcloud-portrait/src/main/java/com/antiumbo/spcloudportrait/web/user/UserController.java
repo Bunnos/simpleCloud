@@ -17,21 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author antiumbo
  */
-@Api("用户")
+@Api(value = "用户",description = "用户模块")
 @RestController
 public class UserController {
 	private final Logger logger = LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public ResponseVo test() {
-//		ResponseVo test = userService.test();
-//		return test;
-		return null;
-	}
-
-	@ApiOperation(value = "注册", notes = "注册用户")
+	@ApiOperation(value = "用户注册",notes = "用户注册")
 	@ApiImplicitParam(name = "userReqVo", value = "用户注册请求实体类", required = true, dataType = "UserReqVo")
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseVo register(@RequestBody UserReqVo userReqVo) {
