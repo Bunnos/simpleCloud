@@ -13,11 +13,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ConfigController {
 
-	@Value("${name}")
-	String name;
-
-	@RequestMapping("/name")
-	public String name() {
-		return name;
-	}
 }

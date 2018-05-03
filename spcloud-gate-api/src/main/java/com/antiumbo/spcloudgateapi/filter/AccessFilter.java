@@ -45,7 +45,7 @@ public class AccessFilter extends ZuulFilter {
 			return null;
 		}
 		log.info("access token ok");*/
-		doSomething();
+//		doSomething();
 		return null;
 	}
 
