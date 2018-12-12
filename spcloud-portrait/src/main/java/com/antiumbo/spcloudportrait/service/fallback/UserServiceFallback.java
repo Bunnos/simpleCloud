@@ -1,7 +1,7 @@
 package com.antiumbo.spcloudportrait.service.fallback;
 
 import com.antiumbo.spcloudportrait.service.UserService;
-import com.antiumbo.spcloudportrait.web.http.UserReqVo;
+import com.antiumbo.spclouduserserver.web.http.UserReqVo;
 import com.antiumbo.tools.http.ResponseVo;
 
 /**

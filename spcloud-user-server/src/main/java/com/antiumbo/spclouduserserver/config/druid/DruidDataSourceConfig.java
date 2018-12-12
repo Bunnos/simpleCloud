@@ -1,47 +1,43 @@
 package com.antiumbo.spclouduserserver.config.druid;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import org.springframework.boot.bind.RelaxedPropertyResolver;
-import org.springframework.context.EnvironmentAware;
+import com.alibaba.druid.support.http.StatViewServlet;
+import com.alibaba.druid.support.http.WebStatFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-
-import javax.sql.DataSource;
-import java.sql.SQLException;
 
 /**
  * @author Bran
  * @date 2017/11/18 0018.
  */
 @Configuration
-public class DruidDataSourceConfig implements EnvironmentAware {
-
-	private RelaxedPropertyResolver propertyResolver;
-
-	@Override
-	public void setEnvironment(Environment environment) {
-		this.propertyResolver = new RelaxedPropertyResolver(environment,"spring.datasource.");
+public class DruidDataSourceConfig {
+	@Bean
+	public ServletRegistrationBean statViewServlet(){
+		//创建servlet注册实体
+		ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(),"/druid/*");
+		//设置ip白名单
+		servletRegistrationBean.addInitParameter("allow","127.0.0.1");
+		//设置ip黑名单，如果allow与deny共同存在时,deny优先于allow
+		servletRegistrationBean.addInitParameter("deny","192.168.0.19");
+		//设置控制台管理用户
+		servletRegistrationBean.addInitParameter("loginUsername","admin");
+		servletRegistrationBean.addInitParameter("loginPassword","123456");
+		//是否可以重置数据
+		servletRegistrationBean.addInitParameter("resetEnable","false");
+		return servletRegistrationBean;
 	}
 
 	@Bean
-	public DataSource dataSource() {
-		System.out.println("注入druid！！！");
-		DruidDataSource datasource = new DruidDataSource();
-		datasource.setUrl(propertyResolver.getProperty("url"));
-		datasource.setDriverClassName(propertyResolver.getProperty("driver-class-name"));
-		datasource.setUsername(propertyResolver.getProperty("username"));
-		datasource.setPassword(propertyResolver.getProperty("password"));
-		datasource.setInitialSize(Integer.valueOf(propertyResolver.getProperty("initial-size")));
-		datasource.setMinIdle(Integer.valueOf(propertyResolver.getProperty("min-idle")));
-		datasource.setMaxWait(Long.valueOf(propertyResolver.getProperty("max-wait")));
-		datasource.setMaxActive(Integer.valueOf(propertyResolver.getProperty("max-active")));
-		datasource.setMinEvictableIdleTimeMillis(Long.valueOf(propertyResolver.getProperty("min-evictable-idle-time-millis")));
-		try {
-			datasource.setFilters("stat,wall");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return datasource;
+	public FilterRegistrationBean statFilter(){
+		//创建过滤器
+		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
+		//设置过滤器过滤路径
+		filterRegistrationBean.addUrlPatterns("/*");
+		//忽略过滤的形式
+		filterRegistrationBean.addInitParameter("exclusions","*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
+		return filterRegistrationBean;
 	}
+
 }

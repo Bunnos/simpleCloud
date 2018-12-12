@@ -1,0 +1,36 @@
+server:
+  port: 5555
+spring:
+  application:
+    name: api-gate
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      default-filters:
+      routes:
+      - id: access
+        uri: lb://PORTRAIT
+        predicates:
+        - Path= /access/**
+        filters:
+        - StripPrefix=1
+        - AddRequestHeader=X-Forwarded-Prefix,/access
+        - name: Hystrix
+          args:
+            name: authHystrixCommand
+            fallbackUri: forward:/hystrixTimeout
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://localhost:1111/eureka/

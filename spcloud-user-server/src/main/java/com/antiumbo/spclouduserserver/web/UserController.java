@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -42,6 +43,7 @@ public class UserController {
 		UserModel userModel = new UserModel();
 		userModel.setName(userReqVo.getName());
 		userModel.setPassword(PasswordUtil.encode(userReqVo.getPassword()));
+		userModel.setCreateDate(new Date());
 		UserModel userModelByName = userDao.findUserModelByName(userReqVo.getName());
 		if (userModelByName != null) {
 			return ResponseVo.failureResponse("用户名已存在！");

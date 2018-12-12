@@ -3,6 +3,7 @@ package com.antiumbo.spclouduserserver.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * @author 默柴柒柒
@@ -18,4 +19,6 @@ public class UserModel {
     private String name;
     @Column(name = "password")
     private String password;
+    @Column(name = "create_date")
+    private Date createDate;
 }
