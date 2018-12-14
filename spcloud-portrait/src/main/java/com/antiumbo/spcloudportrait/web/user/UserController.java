@@ -38,4 +38,18 @@ public class UserController {
             return ResponseVo.failureResponse();
         }
     }
+
+    @ApiOperation(value = "用户登录", notes = "用户登录")
+    @ApiImplicitParam(name = "userReqVo", value = "用户注册请求实体类", required = true, dataType = "UserReqVo")
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResponseVo login(@RequestBody UserReqVo userReqVo) {
+        try {
+            ResponseVo responseVo = userService.login(userReqVo);
+            return responseVo;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            e.printStackTrace();
+            return ResponseVo.failureResponse(e.getMessage());
+        }
+    }
 }

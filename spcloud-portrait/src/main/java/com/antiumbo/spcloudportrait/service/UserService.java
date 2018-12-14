@@ -15,11 +15,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = "user-server", fallback = UserServiceFallback.class)
 public interface UserService {
 
-	/**
-	 * 注册
-	 * @param userReqVo
-	 * @return
-	 */
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	ResponseVo register(@RequestBody UserReqVo userReqVo);
+    /**
+     * 注册
+     *
+     * @param userReqVo
+     * @return
+     */
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    ResponseVo register(@RequestBody UserReqVo userReqVo);
+
+    /**
+     * 登录
+     *
+     * @param userReqVo
+     * @return
+     */
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    ResponseVo login(@RequestBody UserReqVo userReqVo);
 }

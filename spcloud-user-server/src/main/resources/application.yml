@@ -18,6 +18,18 @@ spring:
     test-while-idle: true
     test-on-borrow: false
     test-on-return: false
+  cache:
+    type: redis
+  redis:
+    host: 39.105.3.154
+    port: 6379
+    password: pge703049
+    jedis:
+      pool:
+        max-wait: 1000
+        min-idle: 10
+        max-active: 100
+
 debug: true
 eureka:
   client:

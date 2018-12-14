@@ -14,4 +14,9 @@ public class UserServiceFallback implements UserService {
 	public ResponseVo register(UserReqVo userReqVo) {
 		return null;
 	}
+
+	@Override
+	public ResponseVo login(UserReqVo userReqVo) {
+		return null;
+	}
 }
