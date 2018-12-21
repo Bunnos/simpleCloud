@@ -6,7 +6,6 @@ import com.antiumbo.spclouduserserver.model.UserModel;
 import com.antiumbo.spclouduserserver.service.IUserService;
 import com.antiumbo.spclouduserserver.web.http.UserReqVo;
 import com.antiumbo.tools.exception.BusinessException;
-import com.antiumbo.tools.http.ResponseVo;
 import com.antiumbo.tools.password.PasswordUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -49,8 +48,9 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public String login(UserReqVo userReqVo) throws Exception {
+    public String login(UserReqVo userReqVo) throws BusinessException {
         String token = null;
+        UserModel userModel;
         if (userReqVo != null) {
             String name = userReqVo.getName();
             String pwd = userReqVo.getPassword();
@@ -58,20 +58,24 @@ public class UserServiceImpl implements IUserService {
                 throw BusinessException.newException("用户名或密码为空");
             }
             String newPwd = PasswordUtil.encode(pwd);
-            UserModel userModelByName = userDao.findUserModelByName(name);
-            if (userModelByName != null) {
-                String dataPwd = userModelByName.getPassword();
-                if (StringUtils.equals(dataPwd, newPwd)) {
-                    token = String.valueOf(UUID.randomUUID()).replace("-", "");
-                } else {
-                    throw BusinessException.newException("用户名或密码错误");
-                }
+            userModel = userDao.findByNameAndPassword(name, newPwd);
+            if (userModel != null) {
+                token = String.valueOf(UUID.randomUUID()).replace("-", "");
             } else {
-                throw BusinessException.newException("用户不存在");
+                throw BusinessException.newException("用户名或密码错误");
             }
             // 将token放入缓存中
-            redisUtil.set(token, userModelByName.getId(), EXPIRE_SECONDS);
+            redisUtil.set(token, userModel.getId(), EXPIRE_SECONDS);
         }
         return token;
+    }
+
+    @Override
+    public UserModel getUserInfo(Integer userId) throws Exception {
+        if (userId == null || userId == 0) {
+            throw new BusinessException("token失效");
+        }
+        UserModel userModel = userDao.getUserById(userId);
+        return userModel;
     }
 }

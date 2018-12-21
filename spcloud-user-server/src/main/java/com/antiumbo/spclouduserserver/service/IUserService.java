@@ -1,6 +1,9 @@
 package com.antiumbo.spclouduserserver.service;
 
+import com.antiumbo.spclouduserserver.model.UserModel;
 import com.antiumbo.spclouduserserver.web.http.UserReqVo;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author antiumbo
@@ -24,4 +27,13 @@ public interface IUserService {
      * @throws Exception
      */
     String login(UserReqVo userReqVo) throws Exception;
+
+    /**
+     * 获取用户信息
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    UserModel getUserInfo(Integer id) throws Exception;
 }

@@ -5,9 +5,7 @@ import com.antiumbo.spcloudportrait.service.fallback.UserServiceFallback;
 import com.antiumbo.spclouduserserver.web.http.UserReqVo;
 import com.antiumbo.tools.http.ResponseVo;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author antiumbo
@@ -32,4 +30,13 @@ public interface UserService {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     ResponseVo login(@RequestBody UserReqVo userReqVo);
+
+    /**
+     * 查询用户信息
+     *
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
+    ResponseVo getUserInfo(@RequestParam("userId") Integer userId);
 }
