@@ -1,6 +1,7 @@
 package com.antiumbo.spcloudportrait.config.aspect;
 
 import com.antiumbo.spcloudportrait.config.redis.RedisUtil;
+import com.antiumbo.spcloudportrait.utils.UserUtil;
 import com.antiumbo.tools.exception.BusinessException;
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -27,6 +28,8 @@ public class TokenAspect {
     public static final Logger logger = LoggerFactory.getLogger(TokenAspect.class);
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private UserUtil userUtil;
 
     @Pointcut("@annotation(com.antiumbo.spcloudportrait.config.aspect.TokenAuth)")
     public void executeService() {
@@ -37,7 +40,7 @@ public class TokenAspect {
         RequestAttributes ra = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes sra = (ServletRequestAttributes) ra;
         HttpServletRequest request = sra.getRequest();
-        String token = request.getParameter("token");
+        String token = request.getHeader("token");
         logger.info("token:{}", token);
         if (StringUtils.isEmpty(token)) {
             return BusinessException.newException("token不能为空");
@@ -46,6 +49,7 @@ public class TokenAspect {
         if (userId == null) {
             throw BusinessException.newException("无效的token");
         }
+        userUtil.setUserId(userId);
         Object proceed = pjp.proceed();
         return proceed;
     }
